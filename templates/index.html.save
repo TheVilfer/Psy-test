@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</head>
+
+<body>
+
+    <div class="words-task open" id="words-task">
+        <h1>Слова для запоминания:</h1>
+        <div id="words-container"></div>
+        <div class="timer timer-new">
+            <p id="timer-text-2">5</p>
+        </div>
+    </div>
+
+    <div class="words-task close" id="finish-container">
+        <h1>Благодарим за участие!</h1>
+        <p class="ask-label">Спасибо за прохождение эксперимента, ответьте на следующие короткие вопросы, пожалуйста</p>
+        <div class="ask-container">
+            <p class="ask">Сколько вкладок у вас было открыто во время эксперимента?</p>
+            <select id="tab-select">
+                <option value="1" selected>1</option>
+            </select>
+        </div>
+        <div class="ask-container">
+            <p class="ask">Приходили ли Вам уведомления во время эксперимента?</p>
+            <select id="notification-select">
+                <option value="да">да</option>
+                <option value="нет" selected>нет</option>
+            </select>
+        </div>
+        <div class="ask-container">
+            <p class="ask">Насколько сложной Вам показалась задача? (от 1 до 5)</p>
+            <select id="hard-select">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <div class="ask-container">
+            <p class="ask">Пользуетесь ли вы ежедневником (органайзером) для планирования своих задач?</p>
+            <select id="note-select">
+                <option value="да">да</option>
+                <option value="нет" selected>нет</option>
+            </select>
+        </div>
+        <div class="ask-container">
+            <p class="ask">Если пользуетесь, то каким?</p>
+            <select id="note-2-select">
+                <option value="Не пользуюсь" selected>Не пользуюсь</option>
+                <option value="Бумажным">Бумажным</option>
+                <option value="Электронным">Электронным</option>
+                <option value="Обоими">Обоими</option>
+            </select>
+        </div>
+
+        <button id="upload-data" onclick="finishBtn()">Отправить</button>
+        <h1 id="real-finish"></h1>
+    </div>
+    <div class="words-task open" id="input-container">
+        <div class='text-rules'>
+            <p>Здравствуйте!</p>
+            <p>Сейчас Вам предстоит пройти эксперимент. Эксперимент состоит из 30 раундов. В каждом раунде Вам необходимо запомнить 3 слова (время предъявления 5 секунд), затем перед Вами появится разворот календаря, в котором необходимо найти все ячейки
+                содержащие эти 3 слова (ячеек больше 3). Найдя нужную ячейку нажмите на неё, тем самым перечеркнув. На поиск в каждом раунде у Вас есть 1 минута. Если Вы считаете, что нашли все ячейки, то нажмите пробел.</p>
+            <p>Общее время прохождения: 30-35 минут</p>
+            <p>ВАЖНО:</p>
+            <p>Будьте максимально сосредоточены, не отвлекайтесь на посторонние шумы (уведомления, звонки), желательно отключить всплывающие окна, звуковые сигналы из других вкладок браузера. Это поможет сделать эксперимент максимально чистым.</p>
+            <p>Не переключайтесь между вкладками – это может помешать записи данных, что обесценит Ваш труд и приведёт к искаженным данным.</p>
+            <p>После прохождения эксперимента сообщите экспериментатору ваш никнейм для проверки корректности записи данных.</p>
+            <p>Если у Вас возникли вопросы или проблемы – свяжитесь с экспериментатором.</p>
+            <p>Спасибо, что помогаете развивать науку!</p>
+        </div>
+        <h1>Как вас зовут</h1>
+        <input type="text" id="input-name">
+        <h1>Сколько вам полных лет</h1>
+        <input type="text" id="input-years">
+        <button id="main-info-btn">Начать</button>
+    </div>
+    <div class="calendar-info">
+        <h2>Январь 2021</h2>
+        <div class="week-container">
+            <div class="day-of-week">
+                <p>ПН</p>
+            </div>
+            <div class="day-of-week">
+                <p>ВТ</p>
+            </div>
+            <div class="day-of-week">
+                <p>СР</p>
+            </div>
+            <div class="day-of-week">
+                <p>ЧТ</p>
+            </div>
+            <div class="day-of-week">
+                <p>ПТ</p>
+            </div>
+            <div class="day-of-week">
+                <p>СБ</p>
+            </div>
+            <div class="day-of-week">
+                <p>ВС</p>
+            </div>
+        </div>
+        <div class="days-container-2">
+            <div class="day-container-2">
+                <p class="d">31</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">1</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">2</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">3</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">4</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">5</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">6</p>
+            </div>
+        </div>
+        <div class="days-container-2">
+            <div class="day-container-2">
+                <p class="d">7</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">8</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">9</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">10</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">11</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">12</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">13</p>
+            </div>
+        </div>
+        <div class="days-container-2">
+            <div class="day-container-2">
+                <p class="d">14</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">15</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">16</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">17</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">18</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">19</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">20</p>
+            </div>
+        </div>
+        <div class="days-container-2">
+            <div class="day-container-2">
+                <p class="d">21</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">22</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">23</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">24</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">25</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">26</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">27</p>
+            </div>
+        </div>
+        <div class="days-container-2">
+            <div class="day-container-2">
+                <p class="d">28</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">29</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">30</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">30</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">1</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">2</p>
+            </div>
+            <div class="day-container-2">
+                <p class="d">3</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="right-info">
+        <h2>Мои календари</h2>
+        <p class="cal-p"><input type="checkbox" name="a" value="1417"> Работа</p>
+        <p class="cal-p"><input type="checkbox" name="a" value="1417"> Учеба</p>
+        <p class="cal-p"><input type="checkbox" name="a" value="1417"> Домашние дела</p>
+        <h2>Заметки</h2>
+        <input class="notes" type="text" placeholder="Начните писать заметки">
+        <input class="notes" type="text">
+        <input class="notes" type="text">
+        <input class="notes" type="text">
+        <input class="notes" type="text">
+        <input class="notes" type="text">
+        <input class="notes" type="text">
+    </div>
+
+    <div class="main-container close" id="main-container">
+        <div class="head-container">
+            <div class="month">
+                <p>Январь</p>
+            </div>
+            <div class="year">
+                <p>2021</p>
+            </div>
+        </div>
+        <div class="week-container">
+            <div class="day-of-week">
+                <p>ПН</p>
+            </div>
+            <div class="day-of-week">
+                <p>ВТ</p>
+            </div>
+            <div class="day-of-week">
+                <p>СР</p>
+            </div>
+            <div class="day-of-week">
+                <p>ЧТ</p>
+            </div>
+            <div class="day-of-week">
+                <p>ПТ</p>
+            </div>
+            <div class="day-of-week">
+                <p>СБ</p>
+            </div>
+            <div class="day-of-week">
+                <p>ВС</p>
+            </div>
+        </div>
+        <div class="days-container">
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+        </div>
+        <div class="days-container">
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+        </div>
+        <div class="days-container">
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+        </div>
+        <div class="days-container">
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+        </div>
+        <div class="days-container">
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+            <div class="day-container">
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+                <div class="task">Test word</div>
+            </div>
+        </div>
+        <div class="timer">
+            <p id="timer-text-1">30</p>
+        </div>
+    </div>
+</body>
+
+</html>
