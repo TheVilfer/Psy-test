@@ -5,7 +5,7 @@ const notificationUrl = 'getNotification';
 // const TIME1 = 10;
 // const TIME2 = 5;
 
-const ROUNDS = 97;
+let ROUNDS = 97;
 
 const TIME1 = 30;
 const TIME2 = 5;
@@ -41,7 +41,7 @@ function setTimer(timers, iteration) {
     let round = Math.floor(iteration / 2);
     let randomSeconds = randomInteger(13, 17);
     let seconds = timers[iteration].time;
-    console.log(seconds);
+    console.log("SECONDS ROUND:", seconds);
 
     window.notificationClicked = false;
     window.isNotificationShowed = false;
@@ -50,14 +50,13 @@ function setTimer(timers, iteration) {
 
     getNotificationData(window.rounds[round]).then(res => {
         notificationRound = res;
-        console.log(notificationRound.isHaveNotification + " " + notificationRound.notificationType + " " + window.rounds[round] + " " + randomSeconds);
+        console.log("Is have Notif:", notificationRound.isHaveNotification, "Notif type:", notificationRound.notificationType, "№ Rounds: ", window.rounds[round], "Notif time in ", randomSeconds);
     });
     let timer = setInterval(function () {
         let timerElem = timers[iteration].elem;
         if (Math.floor(seconds) >= 13 && Math.floor(seconds) <= randomSeconds && notificationRound.isHaveNotification) {
             showNotification(notificationRound.notificationType);
             window.isNotificationShowed = true;
-            console.log("Notification type:", notificationRound.notificationType);
             notificationRound.isHaveNotification = false;
         }
         if (window.notificationClicked) {
@@ -303,7 +302,7 @@ function collectData(r, notifTime, notifType) {
 
     wordsElems = document.getElementById('words-container');
     wordsElemsP = wordsElems.getElementsByTagName("p");
-    console.log(wordsElemsP);
+    // console.log(wordsElemsP);
     let words_correct = [];
     for (const elem of wordsElemsP) {
         words_correct.push(elem.innerHTML);
@@ -368,8 +367,6 @@ function loadMainInfo() {
 
         let name = inputName.value;
         let years = inputYears.value;
-
-        console.log()
 
         if (name.length != 0 && years.length != 0) {
             let detectedOS = "Unknown OS";
@@ -461,7 +458,7 @@ window.onload = function () {
     }
     shuffle(window.rounds);
 
-    console.log(window.rounds);
+    console.log("ROUNDS ARRAY:",window.rounds);
 
     window.gameStatistic = {
         "mainInfo": null,
