@@ -55,7 +55,7 @@ def get_notification_info(round_index,gridData):
     #         "isHaveNotification": isHaveNotification,
     #         "notificationType": notificationType
     #     }
-    notificationData = gridData.loc[round_index,'not_pa':'not_type'].values.tolist()
+    notificationData = gridData.loc[round_index - 1,'not_pa':'not_type'].values.tolist()
     notification_info = {
         "isHaveNotification": True if (notificationData[0] == 'p') else False,
         "notificationType": notificationData[1]
@@ -81,7 +81,7 @@ def get_distracting_words(gridData):
 def get_round_words(round_index,gridData):
     wordData = []
     
-    wordData = gridData.loc[round_index,'s1':'s210'].values.tolist()
+    wordData = gridData.loc[round_index - 1,'s1':'s210'].values.tolist()
     random.shuffle(wordData)
     random.shuffle(wordData)
     random.shuffle(wordData)
@@ -89,7 +89,7 @@ def get_round_words(round_index,gridData):
     return wordData
 
 def get_correct_words(round_index, target_words_dict):
-    target = target_words_dict[round_index]['normalized_words']
+    target = target_words_dict[round_index - 1]['normalized_words']
     return target
 
 
