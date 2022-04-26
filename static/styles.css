@@ -388,3 +388,12 @@ select {
   0% { right: 300px; }
   100% { right: 12px; }
 }
+
+.grid{
+    display: grid;
+}
+.grid--center{
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}

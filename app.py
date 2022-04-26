@@ -27,6 +27,10 @@ def index():
 def admin():
     return render_template("admin.html")
 
+@app.route('/demo')
+def demo():
+    return render_template("demo.html")
+
 @app.after_request
 def after_request(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
