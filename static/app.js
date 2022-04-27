@@ -342,8 +342,8 @@ function switchCard() {
     let wordsTask = document.getElementById("words-task");
     let mainContainer = document.getElementById("main-container");
 
-    wordsTask.classList.toggle("open");
     wordsTask.classList.toggle("close");
+    wordsTask.classList.toggle("open");
 
     mainContainer.classList.toggle("open");
     mainContainer.classList.toggle("close");
@@ -383,8 +383,10 @@ function loadMainInfo() {
             }
 
             let container = document.getElementById('input-container');
+            let wordsTask = document.getElementById("words-task");
             container.classList.remove('open');
             container.classList.add('close');
+            wordsTask.classList.toggle("close");
             console.log(window.gameStatistic);
             pushTimers();
         }
