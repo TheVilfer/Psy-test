@@ -371,28 +371,23 @@ select {
     }
 }
 
-.moved {
-    -webkit-animation: moved 2s linear;
-    animation: moved 2s linear;
-}
-
 @keyframes moved {
     0% {
-        right: 300px;
+        right: 20em;
     }
 
     100% {
-        right: 12px;
+        right: 1em;
     }
 }
 
 @-webkit-keyframes moved {
     0% {
-        right: 300px;
+        right: 20em;
     }
 
     100% {
-        right: 12px;
+        right: 1em;
     }
 }
 
@@ -408,5 +403,44 @@ select {
 
 .main-grid-template {
     padding: 0.5em;
-    grid-template-columns: 15% 70% 15%;
+    grid-template-columns: 20% 60% 20%;
+}
+
+.notification {
+    position: fixed;
+    bottom: 1em;
+    right: 1em;
+    width: 17rem;
+    height: 4rem;
+    background-color: white;
+}
+
+.notification:hover {
+    cursor: pointer;
+}
+
+.icon-container {
+    width: 20%;
+    height: 100%;
+    background-color: rgb(3, 119, 227);
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
+
+.notification-close {
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+
+}
+
+.animate--blink {
+    -webkit-animation: blinker 0.5s linear infinite;
+    animation: blinker 0.5s linear infinite;
+}
+
+.animate--moving {
+    -webkit-animation: moved 1s linear;
+    animation: moved 1s linear;
 }

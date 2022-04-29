@@ -114,9 +114,12 @@ function setTimer(timers, iteration) {
                 window.gameStatistic["rounds"].push(data);
                 // postData();
                 console.log("finish");
-                let container = document.getElementById('finish-container')
-                container.classList.remove('close');
-                container.classList.add('open');
+                let container = document.getElementById('finish-container');
+                let wordsTask = document.getElementById("words-task");
+                toggleShowWindows(wordsTask);
+                toggleShowWindows(container);
+                // container.classList.remove('close');
+                // container.classList.add('open');
             }
 
             let data = collectData(window.rounds[round + 1], randomSeconds, notificationRound.notificationType);
@@ -130,43 +133,56 @@ function setTimer(timers, iteration) {
 }
 
 function showNotification(animationType) {
-    toastr.options = {
-        "closeButton": true,
-        "debug": true,
-        "newestOnTop": true,
-        "progressBar": false,
-        "positionClass": "toast-bottom-right",
-        "preventDuplicates": true,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "0",
-        "extendedTimeOut": "0",
-    };
-    toastr.options.showEasing = 'linear';
-    if (animationType == 1) {
-        toastr.options.showMethod = 'slideDown';
-    }
-    if (animationType == 2) {
-        toastr.options.showEasing = "easeOutQuad";
-        toastr.options.showMethod = 'show';
-        toastr.options.showDuration = "100";
-    }
-    if (animationType == 4) {
-        toastr.options.showMethod = 'fadeIn';
-    }
-    toastr.options.onclick = function () {
-        window.notificationClicked = true;
-    };
-    toastr.options.onShown = function () {
-        if (animationType == 3) {
-            document.querySelector("#toast-container").classList.add("blink");
-        }
-        if (animationType == 5) {
-            document.querySelector("#toast-container").classList.add("moved");
-        }
-    };
-    toastr.info('');
+    const ANIMATION_TYPE = {
+    1: 'animate__animated animate__fadeInUp',
+    2: '',
+    3: 'animate--blink',
+    4: 'animate__animated animate__fadeIn',
+    5: 'animate--moving',
+    "none": ''
+};
+    document.querySelector("body").innerHTML+= createNotification(ANIMATION_TYPE[animationType]);
+    
     return 0;
+}
+
+function destroyNotification() {
+    window.notificationClicked = true;
+    document.querySelector(".notification").remove();
+}
+
+function createNotification(classList){
+    return `<div class="notification ${classList}" onclick="destroyNotification()">
+        <div class="icon-container">
+            <svg width="31" height="43" viewBox="0 0 31 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M19.938 4.87836C20.135 3.58881 19.732 2.23657 18.747 1.24254C17.0902 -0.414179 14.4037 -0.414179 12.7559 1.24254C11.7708 2.22761 11.3678 3.58881 11.5649 4.8694C12.8634 4.35896 14.2693 4.07239 15.747 4.07239C17.2246 4.07239 18.6395 4.35896 19.938 4.87836Z"
+                    fill="white" />
+                <path
+                    d="M30.738 36.9918C27.2634 32.5052 25.4096 27.0157 25.4096 21.3202V15.4545C25.4096 10.1261 21.0574 5.78284 15.738 5.78284C10.4096 5.78284 6.06636 10.0993 6.06636 15.4545V21.3202C6.06636 26.9799 4.17681 32.5142 0.737999 36.9918H30.738Z"
+                    fill="white" />
+                <path
+                    d="M28.7858 15.5172C28.3111 15.5172 27.944 15.15 27.944 14.6754C27.944 11.3351 26.3589 8.20075 23.5649 6.07836C23.1977 5.77388 23.1261 5.27239 23.3947 4.86045C23.6992 4.49328 24.2365 4.42164 24.6037 4.6903C27.8096 7.15299 29.6634 10.7888 29.6634 14.6306C29.6275 15.15 29.2514 15.5172 28.7858 15.5172Z"
+                    fill="white" />
+                <path
+                    d="M2.69024 15.5172C2.21561 15.5172 1.84845 15.15 1.84845 14.6754C1.84845 10.7978 3.70218 7.1888 6.90815 4.73507C7.27531 4.4306 7.82158 4.5291 8.12606 4.90522C8.43054 5.28134 8.33203 5.81866 7.95591 6.12313C5.16188 8.24552 3.5768 11.3798 3.5768 14.7201C3.56785 15.15 3.16486 15.5172 2.69024 15.5172Z"
+                    fill="white" />
+                <path
+                    d="M10.544 38.7112C11.2514 40.9052 13.3111 42.4903 15.738 42.4903C18.1649 42.4903 20.2246 40.9052 20.932 38.7112H10.544Z"
+                    fill="white" />
+            </svg>
+        </div>
+        <div class="notification-close">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"
+                width="20px" height="20px">
+                <g id="surface4180719">
+                    <path
+                        style=" stroke:none;fill-rule:nonzero;fill:rgb(40.000001%,40.000001%,40.000001%);fill-opacity:1;"
+                        d="M 4.707031 3.292969 L 3.292969 4.707031 L 10.585938 12 L 3.292969 19.292969 L 4.707031 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.707031 L 19.292969 3.292969 L 12 10.585938 Z M 4.707031 3.292969 " />
+                </g>
+            </svg>
+        </div>
+    </div>`;
 }
 
 function generateTimers() {
@@ -342,11 +358,13 @@ function switchCard() {
     let wordsTask = document.getElementById("words-task");
     let mainContainer = document.getElementById("main-container");
 
-    wordsTask.classList.toggle("close");
-    wordsTask.classList.toggle("open");
+    toggleShowWindows(wordsTask);
+    // wordsTask.classList.toggle("close");
+    // wordsTask.classList.toggle("open");
 
-    mainContainer.classList.toggle("open");
-    mainContainer.classList.toggle("close");
+    toggleShowWindows(mainContainer);
+    // mainContainer.classList.toggle("open");
+    // mainContainer.classList.toggle("close");
 
     toastr.clear();
 }
@@ -384,9 +402,10 @@ function loadMainInfo() {
 
             let container = document.getElementById('input-container');
             let wordsTask = document.getElementById("words-task");
-            container.classList.remove('open');
-            container.classList.add('close');
-            wordsTask.classList.toggle("close");
+            toggleShowWindows(container);
+            toggleShowWindows(wordsTask);
+            // container.classList.add('close');
+            // wordsTask.classList.toggle("close");
             console.log(window.gameStatistic);
             pushTimers();
         }
@@ -415,6 +434,47 @@ function shuffle(array) {
 
 function randomInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function animateObj(obj, type) {
+    if (type == 0) {
+    obj.animate([
+        { transform: 'rotateY(0deg)' },
+        { transform: 'rotateY(90deg)' }
+    ], {
+        duration: 1000,
+        iteration: 1,
+    })
+    return 0;
+    }
+    if (type == 1) {
+        obj.animate([
+            { transform: 'rotateY(90deg)' },
+            { transform: 'rotateY(0deg)' }
+        ], {
+            duration: 1000,
+            iteration: 1,
+        })
+        return 0;
+    }
+}
+
+function toggleShowWindows(obj){
+    const timeAnimation = 100;
+    if (obj.classList.contains("open")) {
+        obj.classList.remove("open");
+        animateObj(obj,0);
+        setTimeout(() => {
+            obj.classList.add("close");
+        }, timeAnimation);
+    }
+    if (obj.classList.contains("close")) {
+        obj.classList.remove("close");
+        animateObj(obj,1);
+        setTimeout(() => {
+            obj.classList.add("open");
+        }, timeAnimation);
+    }
 }
 
 function finishBtn() {

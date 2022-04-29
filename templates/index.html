@@ -7,14 +7,10 @@
     <title>Тест</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
-    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
-    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="{{ url_for('static', filename='app.js') }}"></script>
 
 </head>
@@ -221,7 +217,7 @@
                 <h1 id="real-finish"></h1>
             </div>
 
-            <div class="words-task" id="input-container">
+            <div class="words-task open" id="input-container">
                 <div class='text-rules'>
                     <p>Здравствуйте!</p>
                     <p>Сейчас Вам предстоит пройти эксперимент.
@@ -596,6 +592,7 @@
             </div>
         </div>
     </div>
+
 </body>
 
 </html>
