@@ -148,7 +148,10 @@ function showNotification(animationType) {
 
 function destroyNotification() {
     window.notificationClicked = true;
-    document.querySelector(".notification").remove();
+    let notificationFrame = document.querySelector(".notification");
+    if (notificationFrame){
+        notificationFrame.remove();
+    }
 }
 
 function createNotification(classList){
@@ -366,7 +369,7 @@ function switchCard() {
     // mainContainer.classList.toggle("open");
     // mainContainer.classList.toggle("close");
 
-    toastr.clear();
+    destroyNotification();
 }
 
 
