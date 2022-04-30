@@ -373,7 +373,7 @@ select {
 
 @keyframes moved {
     0% {
-        right: 20em;
+        right: 50%;
     }
 
     100% {
