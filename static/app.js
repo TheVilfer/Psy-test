@@ -9,14 +9,6 @@ let ROUNDS = 194;
 
 const TIME1 = 30;
 const TIME2 = 5;
-const ANIMATION_TYPE = {
-    1: '',
-    2: '',
-    3: '',
-    4: '',
-    5: '',
-    "none": ''
-};
 
 
 function setOnClick(elements) {
@@ -42,7 +34,7 @@ function setTimer(timers, iteration) {
     let randomSeconds = randomInteger(13, 17);
     let seconds = timers[iteration].time;
     console.log("SECONDS ROUND:", seconds);
-
+    
     window.notificationClicked = false;
     window.isNotificationShowed = false;
     let notificationRound;
@@ -141,7 +133,8 @@ function showNotification(animationType) {
     5: 'animate--moving',
     "none": ''
 };
-    document.querySelector("body").innerHTML+= createNotification(ANIMATION_TYPE[animationType]);
+    // document.querySelector("body").innerHTML+= createNotification(ANIMATION_TYPE[animationType]);
+    document.body.insertAdjacentHTML('beforeend', createNotification(ANIMATION_TYPE[animationType]));
     
     return 0;
 }

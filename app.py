@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, jsonify, send_file
 import words_generator
 import get_statistic
+from flaskext.markdown import Markdown
 
 from os import listdir
 from os.path import isfile, join
@@ -18,10 +19,11 @@ distracting_words = words_generator.get_distracting_words(dfs[1])
 
 total_words = settings['words_count']
 
-
+Markdown(app)
 @app.route('/')
 def index():
-    return render_template("index.html")
+    info = open("info.md", "r", encoding="utf-8").read()
+    return render_template("index.html", info=info)
 
 @app.route('/admin')
 def admin():
