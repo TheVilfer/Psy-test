@@ -133,7 +133,6 @@ function showNotification(animationType) {
     5: 'animate--moving',
     "none": ''
 };
-    // document.querySelector("body").innerHTML+= createNotification(ANIMATION_TYPE[animationType]);
     document.body.insertAdjacentHTML('beforeend', createNotification(ANIMATION_TYPE[animationType]));
     
     return 0;
