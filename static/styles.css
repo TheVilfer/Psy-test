@@ -4,7 +4,6 @@ body {
     height: 100%;
     margin: 0;
     background: #F4F6F9;
-    box-sizing: border-box;
 }
 
 .main-container {
@@ -169,14 +168,9 @@ body {
 }
 
 .words-task {
-    background: #FFFFFF;
-    /* box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.07); */
-    border-radius: 14px;
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+
+    display: grid;
+    justify-items: center;
     align-items: center;
     padding-bottom: 2em;
     transition: transform .4s;
@@ -185,11 +179,11 @@ body {
 }
 
 .open {
-    display: flex;
+    display: grid;
 }
 
 .close {
-    display: none;
+    display: none !important;
 }
 
 .timer-new {
@@ -219,6 +213,13 @@ body {
     padding-left: 5em;
     padding-right: 5em;
     box-sizing: border-box;
+}
+
+.window-task {
+    background: #FFFFFF;
+    border-radius: 14px;
+    width: 100%;
+    min-height: 100vh;
 }
 
 #main-info-btn {
@@ -270,15 +271,9 @@ body {
     font-size: 25px;
 }
 
-.ask-container {
-    display: flex;
-    flex-direction: row;
-}
 
 select {
     height: 30px;
-    margin-left: 10px;
-    margin-top: 10px;
 }
 
 .right {
@@ -378,21 +373,7 @@ select {
     }
 
     100% {
-        right: 1em;Здравствуйте! 
-Спасибо, что согласились принять участие в эксперименте! 
-1.  Ваша задача: запоминать 3 слова (предъявляются на 5 секунд). Например, «тренировка, учеба, работа». Затем перед Вами появится разворот ежедневника с синими слотами, в которых содержатся слова. Необходимо найти ВСЕ СИНИЕ СЛОТЫ, где есть эти слова (Слотов больше 3).
-Найдя нужную ячейку нажмите на нее, тем самым вычеркнув дело.
-2.  Во время прохождения могут появляться уведомления. Вам необходимо закрыть уведомление как только Вы его заметили. Затем вернуться к выполнению основного задания. 
-Эксперимент состоит из 97 раундов.
-На поиск в каждом раунде у Вас есть 30 секунд
-Общее время прохождения: 50 минут
-3.  После прохождения Вас ждет небольшой опрос. После заполнения ответов нажмите на кнопку ОТПРАВИТЬ и получите СЕКРЕТНЫЙ КОД. 
-ВАЖНО:
-Будьте максимально сосредоточены, не отвлекайтесь на посторонние шумы (уведомления, звонки), желательно отключить всплывающие окна, звуковые сигналы из других вкладок браузера. Это поможет сделать эксперимент максимально чистым.
-Не переключайтесь между вкладками – это может помешать записи данных, что обесценит Ваш труд и приведёт к искаженным данным.
-После прохождения эксперимента сообщите экспериментатору ваш НИКНЕЙМ (Имя) для проверки корректности записи данных, а также СЕКРЕТНЫЙ КОД. 
-Если у Вас возникли вопросы или проблемы – свяжитесь с экспериментатором.
-Спасибо, что помогаете развивать науку!
+        right: 1em;
     }
 }
 
@@ -458,4 +439,37 @@ select {
 .animate--moving {
     -webkit-animation: moved 1s linear;
     animation: moved 1s linear;
+}
+
+.welcome-form {
+    display: grid;
+    grid-template-columns: auto;
+    justify-items: center;
+    align-items: center;
+}
+
+.window-task-remember-words {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    min-height: 100vh;
+}
+
+.window-task-finish {
+    padding: 0 2em;
+    box-sizing: border-box;
+}
+
+hr {
+    width: 100%;
+}
+
+button {
+    width: fit-content;
+}
+
+.finish-button {
+    margin-top: 2em;
 }

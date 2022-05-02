@@ -4,3 +4,4 @@ xlsxwriter
 openpyxl
 gunicorn
 Flask-Markdown
+pyTelegramBotAPI

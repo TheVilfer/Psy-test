@@ -161,7 +161,7 @@
             </div>
         </div>
         <div class="center">
-            <div class="words-task close" id="words-task">
+            <div class="window-task window-task-remember-words close" id="words-task">
                 <h1>Слова для запоминания:</h1>
                 <div id="words-container"></div>
                 <div class="timer timer-new">
@@ -169,7 +169,7 @@
                 </div>
             </div>
 
-            <div class="words-task close" id="finish-container">
+            <div class="window-task window-task-finish close" id="finish-container">
                 <h1>Благодарим за участие!</h1>
                 <p class="ask-label">Спасибо за прохождение эксперимента, ответьте на следующие короткие вопросы,
                     пожалуйста</p>
@@ -180,16 +180,25 @@
                     </select>
                 </div>
                 <div class="ask-container">
-                    <p class="ask">Приходили ли Вам уведомления во время эксперимента?</p>
+                    <p class="ask">Замечали ли Вы уведомления во время выполнения задания?</p>
                     <select id="notification-select">
                         <option value="да">да</option>
                         <option value="нет" selected>нет</option>
                     </select>
                 </div>
                 <div class="ask-container">
-                    <p class="ask">Насколько сложной Вам показалась задача? (от 1 до 5)</p>
-                    <select id="hard-select">
-                        <option value="1" selected>1</option>
+                    <p class="ask">Считаете ли Вы, что эти уведомления мешали выполнению основного задания?</p>
+                    <select id="stir-select">
+                        <option value="да">да</option>
+                        <option value="нет" selected>нет</option>
+                    </select>
+                </div>
+                <div class="ask-container">
+                    <p class="ask">Чувствовали ли Вы раздражение из-за уведомлений? Оцените по шкале от 0 до 5, где 0 –
+                        не было раздражения, 5 – очень раздражало</p>
+                    <select id="irritation-select">
+                        <option value="0" selected>0</option>
+                        <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="4">4</option>
@@ -197,35 +206,89 @@
                     </select>
                 </div>
                 <div class="ask-container">
-                    <p class="ask">Пользуетесь ли вы ежедневником (органайзером) для планирования своих задач?</p>
-                    <select id="note-select">
+                    <p class="ask">Заметили ли Вы разницу между уведомления по способу их появления?</p>
+                    <select id="different-select">
                         <option value="да">да</option>
                         <option value="нет" selected>нет</option>
                     </select>
                 </div>
+                <hr />
+                <p class="ask">Если заметили разницу, то оцените уведомления по степени раздражения, используя шкалу
+                    от 0 до 5. Если не заметили, проставьте везде 0</p>
                 <div class="ask-container">
-                    <p class="ask">Если пользуетесь, то каким?</p>
-                    <select id="note-2-select">
-                        <option value="Не пользуюсь" selected>Не пользуюсь</option>
-                        <option value="Бумажным">Бумажным</option>
-                        <option value="Электронным">Электронным</option>
-                        <option value="Обоими">Обоими</option>
+                    <p class="ask">Уведомление плавно возникало снизу вверх</p>
+                    <select id="irritation-type-1-select">
+                        <option value="0" selected>0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div class="ask-container">
+                    <p class="ask">Уведомление просто появлялось без лишней анимации</p>
+                    <select id="irritation-type-2-select">
+                        <option value="0" selected>0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div class="ask-container">
+                    <p class="ask">Уведомление появлялось и мигало</p>
+                    <select id="irritation-type-3-select">
+                        <option value="0" selected>0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div class="ask-container">
+                    <p class="ask">Уведомление становилось непрозрачным</p>
+                    <select id="irritation-type-4-select">
+                        <option value="0" selected>0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div class="ask-container">
+                    <p class="ask">Уведомление появлялось в нижней центральной части экрана, затем перемещалось вправо
+                    </p>
+                    <select id="irritation-type-5-select">
+                        <option value="0" selected>0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
                     </select>
                 </div>
 
-                <button id="upload-data" onclick="finishBtn()">Отправить</button>
+
+
+                <button class="finish-button" id="upload-data" onclick="finishBtn()">Отправить</button>
                 <h1 id="real-finish"></h1>
             </div>
 
-            <div class="words-task open" id="input-container">
+            <div class="window-task window-task-welcome open" id="input-container">
                 <div class='text-rules'>
                     {{ info | markdown }}
                 </div>
-                <h1>Как вас зовут</h1>
-                <input type="text" id="input-name">
-                <h1>Сколько вам полных лет</h1>
-                <input type="text" id="input-years">
-                <button id="main-info-btn">Начать</button>
+                <div class="welcome-form">
+                    <h1>Как вас зовут</h1>
+                    <input type="text" id="input-name">
+                    <h1>Сколько вам полных лет</h1>
+                    <input type="text" id="input-years">
+                    <button id="main-info-btn">Начать</button>
+                </div>
             </div>
 
             <div class="main-container close" id="main-container">

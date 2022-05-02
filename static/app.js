@@ -5,7 +5,8 @@ const notificationUrl = 'getNotification';
 // const TIME1 = 10;
 // const TIME2 = 5;
 
-let ROUNDS = 194;
+// let ROUNDS = 194;
+let ROUNDS = 2;
 
 const TIME1 = 30;
 const TIME2 = 5;
@@ -107,14 +108,12 @@ function setTimer(timers, iteration) {
                 // postData();
                 console.log("finish");
                 let container = document.getElementById('finish-container');
-                let wordsTask = document.getElementById("words-task");
+                let wordsTask = document.getElementById("main-container");
                 toggleShowWindows(wordsTask);
                 toggleShowWindows(container);
                 // container.classList.remove('close');
                 // container.classList.add('open');
             }
-
-            let data = collectData(window.rounds[round + 1], randomSeconds, notificationRound.notificationType);
             // console.log(data);
             // postData(data);
         } else {
@@ -248,6 +247,7 @@ function getCorrectWords(roundIndex) {
 }
 
 function getNotificationData(roundIndex) {
+    console.log('debug------', roundIndex.toString());
     return new Promise((resolve, reject) => {
         let xhr = new XMLHttpRequest();
         xhr.onreadystatechange = (e) => {
@@ -476,16 +476,26 @@ function finishBtn() {
     if (window.upload == false) {
         let tabSelect = document.getElementById('tab-select').value;
         let notificationSelect = document.getElementById('notification-select').value;
-        let hardSelect = document.getElementById('hard-select').value;
-        let noteSelect = document.getElementById('note-select').value;
-        let note2Select = document.getElementById('note-2-select').value;
+        let stirSelect = document.getElementById('stir-select').value;
+        let irritationSelect = document.getElementById('irritation-select').value;
+        let differentSelect = document.getElementById('different-select').value;
+        let irritationType1Select = document.getElementById('irritation-type-1-select').value;
+        let irritationType2Select = document.getElementById('irritation-type-2-select').value;
+        let irritationType3Select = document.getElementById('irritation-type-3-select').value;
+        let irritationType4Select = document.getElementById('irritation-type-4-select').value;
+        let irritationType5Select = document.getElementById('irritation-type-5-select').value;
 
         let poll = {
             'tabSelect': tabSelect,
             'notificationSelect': notificationSelect,
-            'hardSelect': hardSelect,
-            'noteSelect': noteSelect,
-            'note2Select': note2Select
+            'stirSelect': stirSelect,
+            'irritationSelect': irritationSelect,
+            'differentSelect': differentSelect,
+            'irritationType1Select': irritationType1Select,
+            'irritationType2Select': irritationType2Select,
+            'irritationType3Select': irritationType3Select,
+            'irritationType4Select': irritationType4Select,
+            'irritationType5Select': irritationType5Select
         }
 
         window.gameStatistic["poll"] = poll;
@@ -510,7 +520,7 @@ window.onload = function () {
     window.isNotificationShowed = false;
 
 
-    for (let i_1 = 1; i_1 <= (ROUNDS / 2); i_1++) {
+    for (let i_1 = 1; i_1 <= Math.floor(ROUNDS / 2); i_1++) {
         window.rounds.push(i_1);
     }
     shuffle(window.rounds);
