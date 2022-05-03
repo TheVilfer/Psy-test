@@ -5,8 +5,8 @@ const notificationUrl = 'getNotification';
 // const TIME1 = 10;
 // const TIME2 = 5;
 
-// let ROUNDS = 194;
-let ROUNDS = 2;
+let ROUNDS = 194;
+// let ROUNDS = 2;
 
 const TIME1 = 30;
 const TIME2 = 5;
