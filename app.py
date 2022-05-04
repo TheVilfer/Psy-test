@@ -47,9 +47,9 @@ def after_request(response):
 def get_correct_words():
     round_index = request.args.get('round')
     round_index = int(round_index)
-    print("GET CORRECT WORDS OF", round_index)
+    # print("GET CORRECT WORDS OF", round_index)
     correctWords = words_generator.get_correct_words(round_index, target_words)
-    print("CORRECT WORDS:", correctWords)
+    # print("CORRECT WORDS:", correctWords)
     d = {'words': correctWords}
     return jsonify(d)
 
@@ -57,9 +57,9 @@ def get_correct_words():
 def get_words_array():
     round_index = request.args.get('round')
     round_index = int(round_index)
-    print("GET ALL WORDS OF:", round_index)
+    # print("GET ALL WORDS OF:", round_index)
     roundWords = words_generator.get_round_words(round_index, dfs[1])
-    print("ALL WORDS:", roundWords)
+    # print("ALL WORDS:", roundWords)
     d = {'words': roundWords}
     return jsonify(d)
 
@@ -67,9 +67,9 @@ def get_words_array():
 def get_notification_data():
     round_index = request.args.get('round')
     round_index = int(round_index)
-    print("GET NOTIFICATION DATA OF:", round_index)
+    # print("GET NOTIFICATION DATA OF:", round_index)
     notificationData = words_generator.get_notification_info(round_index, dfs[1])
-    print("DATA:", notificationData)
+    # print("DATA:", notificationData)
     return jsonify(notificationData)
 
 @app.route('/sendWords', methods=['POST'])

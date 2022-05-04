@@ -87,7 +87,6 @@ def get_statistic(data):
                 targets_after.append(correct_words_after_counter[key])
 
         rounds_df.loc[i] = [round_index,not_pa,not_type,seconds, notifTime, notifTimeClicked, correct_words_bofore_len, targets_before[0], targets_before[1], targets_before[2],correct_words_after_len, targets_after[0], targets_after[1], targets_after[2],correct_words_before_counter['distract'] ,correct_words_after_counter['distract']]
-    print(rounds_df)
 
     file_path = 'public/' + name + ' ' + str(datetime.datetime.now()) + '.xlsx'
 
