@@ -124,6 +124,8 @@ function setTimer(timers, iteration) {
 }
 
 function showNotification(animationType) {
+    let audio = new Audio("/static/audio.mp3");
+    audio.play();
     const ANIMATION_TYPE = {
     1: 'animate__animated animate__fadeInUp',
     2: '',
