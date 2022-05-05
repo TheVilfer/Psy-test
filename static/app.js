@@ -37,9 +37,11 @@ function setTimer(timers, iteration) {
     console.log("SECONDS ROUND:", seconds);
     
     window.notificationClicked = false;
+    window.numberIsAudioPlayed = 0;
     window.isNotificationShowed = false;
     let notificationRound;
     let secondsTmp = -20;
+    
 
     getNotificationData(window.rounds[round]).then(res => {
         notificationRound = res;
@@ -47,6 +49,10 @@ function setTimer(timers, iteration) {
     });
     let timer = setInterval(function () {
         let timerElem = timers[iteration].elem;
+        if ((Math.floor(30 - seconds) == 10 && window.numberIsAudioPlayed == 0) || (Math.floor(30 - seconds) == 20 && window.numberIsAudioPlayed == 1)) {
+            playAudio(true);
+            window.numberIsAudioPlayed++;
+        }
         if (Math.floor(seconds) >= 13 && Math.floor(seconds) <= randomSeconds && notificationRound.isHaveNotification) {
             showNotification(notificationRound.notificationType);
             window.isNotificationShowed = true;
@@ -123,9 +129,20 @@ function setTimer(timers, iteration) {
     }, 10);
 }
 
-function showNotification(animationType) {
+function playAudio(isReal){
     let audio = new Audio("/static/audio.mp3");
+    if (isReal){
+        audio.play();
+        return "Played audio file";
+    }
+    console.log("Unlock audio");
     audio.play();
+    audio.pause();
+    audio.currentTime = 0;
+    return "Unlock audio";
+}
+
+function showNotification(animationType) {
     const ANIMATION_TYPE = {
     1: 'animate__animated animate__fadeInUp',
     2: '',
@@ -505,7 +522,7 @@ function finishBtn() {
         console.log(window.gameStatistic);
         window.upload = true;
 
-        document.getElementById('real-finish').innerHTML = 'Вот теперь точно все! Код: kovriki21';
+        document.getElementById('real-finish').innerHTML = 'Вот теперь точно все! Код: kovriki22';
 
     }
 
@@ -538,6 +555,7 @@ window.onload = function () {
 
     mainInfoBtn.addEventListener("click", function () {
         loadMainInfo();
+        playAudio(false);
         window.gameStarted = true;
     });
 
