@@ -94,7 +94,9 @@ function setTimer(timers, iteration) {
 
                     // postData(data);
                     let wordsElems = document.getElementsByClassName('task');
-                    setWords(wordsElems, window.rounds[round + 1]);
+                    setTimeout(() => {
+                        setWords(wordsElems, window.rounds[round + 1]);
+                    }, 1500);
                     console.log("Switch to time");
                 }
                 // console.log(timerElem.id);
