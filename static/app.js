@@ -100,7 +100,9 @@ function setTimer(timers, iteration) {
 
                     // postData(data);
                     let wordsElems = document.getElementsByClassName('task');
-                    setWords(wordsElems, window.rounds[round + 1]);
+                    setTimeout(() => {
+                        setWords(wordsElems, window.rounds[round + 1]);
+                    }, 1500);
                     console.log("Switch to time");
                 }
                 // console.log(timerElem.id);
@@ -416,8 +418,8 @@ function loadMainInfo() {
 
             let container = document.getElementById('input-container');
             let wordsTask = document.getElementById("words-task");
-            toggleShowWindows(container);
             toggleShowWindows(wordsTask);
+            toggleShowWindows(container);
             // container.classList.add('close');
             // wordsTask.classList.toggle("close");
             console.log(window.gameStatistic);
@@ -474,7 +476,7 @@ function animateObj(obj, type) {
 }
 
 function toggleShowWindows(obj){
-    const timeAnimation = 100;
+    const timeAnimation = 50;
     if (obj.classList.contains("open")) {
         obj.classList.remove("open");
         animateObj(obj,0);
