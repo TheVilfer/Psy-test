@@ -131,6 +131,6 @@ def get_statistic(data):
 
     writer.save()
     writerTelegram.save()
-    bot.send_document(362841815, output.getvalue())
+    bot.send_document(185697637, file_path)
 
 
