@@ -38,9 +38,10 @@ def get_statistic(data):
         all_words = data['rounds'][i]['allWords']
         correct_words_before_tmp = []
         correct_words_after_tmp = []
-        seconds = data['rounds'][i]['seconds']
-        notifTimeClicked = abs(seconds - data['rounds'][i]['notifTimeClicked'])
-        if notifTimeClicked == 29:
+        seconds = data['rounds'][i]['seconds'] + 1
+        notifTimeClicked = seconds - data['rounds'][i]['notifTimeClicked']
+        notifTimeClicked = abs(notifTimeClicked)
+        if notifTimeClicked == 30:
             notifTimeClicked = 0
         notifTime = data['rounds'][i]['notifTime']
         for word in selected_words_before:
