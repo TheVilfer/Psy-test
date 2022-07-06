@@ -409,7 +409,6 @@ select {
     width: 17rem;
     height: 4rem;
     background-color: white;
-    display: flex;
 }
 
 .notification:hover {
@@ -423,14 +422,6 @@ select {
     display: grid;
     justify-items: center;
     align-items: center;
-}
-
-.notification--text {
-    display: grid;
-    justify-items: center;
-    align-items: center;
-    width: 100%;
-    font-size: 24px;
 }
 
 .notification-close {
