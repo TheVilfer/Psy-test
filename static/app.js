@@ -2,8 +2,6 @@ const wordsUrl = 'getWordsArray';
 const correctWordsUrl = 'getCorrectWords';
 const uploadUrl = 'sendWords';
 const notificationUrl = 'getNotification';
-// const TIME1 = 10;
-// const TIME2 = 5;
 
 let ROUNDS = 194;
 // let ROUNDS = 2;
@@ -11,7 +9,14 @@ let ROUNDS = 194;
 const TIME1 = 30;
 const TIME2 = 5;
 
+refreshTargetList();
 
+function refreshTargetList() {
+    window.target = {
+        clickCase: {},
+        clickNotification: {}
+    }
+}
 function setOnClick(elements) {
     for (const elem of elements) {
         elem.addEventListener("click", function () {
@@ -23,6 +28,14 @@ function setOnClick(elements) {
 function taskClicked(elem) {
     if (window.isNotificationShowed) {
         elem.classList.add("task-selected--after-notification");
+        if (window.targetFirstClickSlot) {
+            window.targetFirstClickSlot = false;
+            window.target.clickCase = {
+                'return_click': window.secondsTime,
+                'slot_after_type': elem.innerHTML
+            };
+            console.log(window.target.clickCase)
+        }
         return;
     }
     elem.classList.add("task-selected");
@@ -35,27 +48,24 @@ function setTimer(timers, iteration) {
     let randomSeconds = randomInteger(13, 17);
     let seconds = timers[iteration].time;
     console.log("SECONDS ROUND:", seconds);
-    
-    window.notificationClicked = false;
+    window.targetFirstClickSlot = false;
     window.isNotificationShowed = false;
     let notificationRound;
     let secondsTmp = -20;
 
     getNotificationData(window.rounds[round]).then(res => {
         notificationRound = res;
-        console.log("Is have Notif:", notificationRound.isHaveNotification, "Notif type:", notificationRound.notificationType, "№ Rounds: ", window.rounds[round], "Notif time in ", randomSeconds);
+        console.log("Is have Notif:", notificationRound.isHaveNotification, "Notif type:", notificationRound.notificationType,"Notif text:",notificationRound.notificationText, "№ Rounds: ", window.rounds[round], "Notif time in ", randomSeconds);
     });
     let timer = setInterval(function () {
         let timerElem = timers[iteration].elem;
+        window.secondsTime = seconds;
         if (Math.floor(seconds) >= 13 && Math.floor(seconds) <= randomSeconds && notificationRound.isHaveNotification) {
-            showNotification(notificationRound.notificationType);
+            showNotification(notificationRound.notificationType, notificationRound.notificationText);
             window.isNotificationShowed = true;
             notificationRound.isHaveNotification = false;
         }
-        if (window.notificationClicked) {
-            window.notificationClicked = false;
-            window.notificationClickedTime = seconds;
-        }
+        
         if (window.doneGame == true) {
             window.doneGame = false;
 
@@ -63,9 +73,6 @@ function setTimer(timers, iteration) {
                 secondsTmp = timers[iteration].time - seconds;
                 seconds = -1;
             }
-
-            // secondsTmp = timers[iteration].time - seconds;
-            // seconds = -1;
 
         }
         if (seconds <= -1) {
@@ -84,40 +91,33 @@ function setTimer(timers, iteration) {
                     }
 
                 } else {
-                    let data = collectData(window.rounds[round], randomSeconds, notificationRound.notificationType);
+                    let data = collectData(window.rounds[round], randomSeconds, notificationRound.notificationType, notificationRound.notificationText);
                     if (secondsTmp == -20) {
                         secondsTmp = timers[iteration].time;
                     }
                     data['seconds'] = secondsTmp - 1;
                     console.log(data);
                     window.gameStatistic["rounds"].push(data);
-
-                    // postData(data);
                     let wordsElems = document.getElementsByClassName('task');
+
                     setTimeout(() => {
                         setWords(wordsElems, window.rounds[round + 1]);
                     }, 1500);
                     console.log("Switch to time");
                 }
-                // console.log(timerElem.id);
             } else {
-                let data = collectData(window.rounds[round], randomSeconds, notificationRound.notificationType);
+                let data = collectData(window.rounds[round], randomSeconds, notificationRound.notificationType, notificationRound.notificationText);
                 if (secondsTmp == -20) {
                     secondsTmp = timers[iteration].time;
                 }
                 data['seconds'] = secondsTmp - 1;
                 window.gameStatistic["rounds"].push(data);
-                // postData();
                 console.log("finish");
                 let container = document.getElementById('finish-container');
                 let wordsTask = document.getElementById("main-container");
                 toggleShowWindows(wordsTask);
                 toggleShowWindows(container);
-                // container.classList.remove('close');
-                // container.classList.add('open');
             }
-            // console.log(data);
-            // postData(data);
         } else {
             timerElem.innerHTML = seconds;
         }
@@ -125,7 +125,7 @@ function setTimer(timers, iteration) {
     }, 10);
 }
 
-function showNotification(animationType) {
+function showNotification(animationType,textMessage) {
     const ANIMATION_TYPE = {
     1: 'animate__animated animate__fadeInUp',
     2: '',
@@ -134,21 +134,31 @@ function showNotification(animationType) {
     5: 'animate--moving',
     "none": ''
 };
-    document.body.insertAdjacentHTML('beforeend', createNotification(ANIMATION_TYPE[animationType]));
+    const message = textMessage == "none" ? "": textMessage;
+
+    document.body.insertAdjacentHTML('beforeend', createNotification(ANIMATION_TYPE[animationType],message));
+    document.querySelector(".notification").onclick = () =>{
+        console.log("time destroy:",window.secondsTime)
+        destroyNotification();
+        window.targetFirstClickSlot = true;
+        window.target.clickNotification = {
+            time: window.secondsTime,
+        }
+    }
     
     return 0;
 }
 
 function destroyNotification() {
-    window.notificationClicked = true;
     let notificationFrame = document.querySelector(".notification");
     if (notificationFrame){
         notificationFrame.remove();
     }
 }
 
-function createNotification(classList){
-    return `<div class="notification ${classList}" onclick="destroyNotification()">
+function createNotification(classList,textMessage){
+    return `
+    <div class="notification ${classList}" onclick="destroyNotification()">
         <div class="icon-container">
             <svg width="31" height="43" viewBox="0 0 31 43" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -167,6 +177,9 @@ function createNotification(classList){
                     d="M10.544 38.7112C11.2514 40.9052 13.3111 42.4903 15.738 42.4903C18.1649 42.4903 20.2246 40.9052 20.932 38.7112H10.544Z"
                     fill="white" />
             </svg>
+        </div>
+        <div class="notification--text">
+            ${textMessage}
         </div>
         <div class="notification-close">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"
@@ -249,7 +262,6 @@ function getCorrectWords(roundIndex) {
 }
 
 function getNotificationData(roundIndex) {
-    console.log('debug------', roundIndex.toString());
     return new Promise((resolve, reject) => {
         let xhr = new XMLHttpRequest();
         xhr.onreadystatechange = (e) => {
@@ -293,13 +305,19 @@ function setCorrectWords(wordsElem, roundIndex) {
     })
 }
 
-function collectData(r, notifTime, notifType) {
+function collectData(r, notifTime, notifType, notifText) {
+    console.log(window.target.clickCase)
     let wordsElems = document.getElementsByClassName('task-selected');
     let wordsElemAfter = document.getElementsByClassName('task-selected--after-notification');
-    let notificationClickedTime = window.notificationClickedTime;
-    window.notificationClickedTime = 0;
+    let notificationClickedTime = typeof(window.target.clickNotification.time) == 'undefined' ? 'none': window.target.clickNotification.time;;
+    let return_click = typeof(window.target.clickCase["return_click"]) == 'undefined' ? 'none': window.target.clickCase["return_click"];
+    let slot_after_type = typeof(window.target.clickCase["slot_after_type"]) == 'undefined' ? 'none': window.target.clickCase["slot_after_type"];
+
+
+
     let words = [];
     let wordsAfter = [];
+
     for (const elem of wordsElems) {
         words.push(elem.innerHTML);
     }
@@ -315,7 +333,6 @@ function collectData(r, notifTime, notifType) {
 
     wordsElems = document.getElementById('words-container');
     wordsElemsP = wordsElems.getElementsByTagName("p");
-    // console.log(wordsElemsP);
     let words_correct = [];
     for (const elem of wordsElemsP) {
         words_correct.push(elem.innerHTML);
@@ -330,9 +347,14 @@ function collectData(r, notifTime, notifType) {
         roundIndex: r,
         notifTime: notifTime,
         notifType: notifType,
-        notifTimeClicked: notificationClickedTime
+        notifText: notifText,
+        notifTimeClicked: notificationClickedTime,
+        returnClick: return_click,
+        slotAfterType: slot_after_type
 
     };
+
+    refreshTargetList();
     return data;
 }
 
