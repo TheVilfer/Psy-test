@@ -8,7 +8,7 @@ bot = telebot.TeleBot("5111191996:AAGI53jKayeQSrjMcRW8-BZqW1HN_Uhewp4")
 
 
 output = io.BytesIO()
-config_path = 'config_v2.xlsx'
+config_path = 'config_v3.xlsx'
 dfs = words_generator.load_dfs(config_path)
 settings = words_generator.get_settings(dfs[0])
 target_words = words_generator.get_target_words(dfs[1])
@@ -24,7 +24,7 @@ def get_statistic(data):
     info_df = pd.DataFrame(columns=info_column_names)
     info_df.loc[0] = [name, years, operating_system]
 
-    rounds_column_names = ["Проба", "not_p", "not_type", "Общее время","Время появления уведомления","Время нажатия на уведомление", "Количество целевых слов до уведомления", "Цель 1 ДО", "Цель 2 ДО", "Цель 3 ДО", "Количество целевых слов после уведомления", "Цель 1 ПОСЛЕ", "Цель 2 ПОСЛЕ", "Цель 3 ПОСЛЕ", "Дистракторы до уведомления", "Дистракторы после уведомления"]
+    rounds_column_names = ["Проба", "not_p","content_type", "not_type", "Общее время","Время появления уведомления","Время нажатия на уведомление","RT","return_click","slot_after_type", "Количество целевых слов до уведомления", "Цель 1 ДО", "Цель 2 ДО", "Цель 3 ДО", "Количество целевых слов после уведомления", "Цель 1 ПОСЛЕ", "Цель 2 ПОСЛЕ", "Цель 3 ПОСЛЕ", "Дистракторы до уведомления", "Дистракторы после уведомления"]
     rounds_df = pd.DataFrame(columns=rounds_column_names)
 
     for i in range(len(data['rounds'])):
@@ -33,17 +33,28 @@ def get_statistic(data):
         selected_words_after = data['rounds'][i]['selectedWordsAfter']
         correct_words = words_generator.get_correct_words(round_index, target_words)
         not_pa = "p" if data['rounds'][i]['notifType'] != "none" else "n"
+        content_type = data['rounds'][i]['notifText']
         not_type = data['rounds'][i]['notifType']
-
         all_words = data['rounds'][i]['allWords']
         correct_words_before_tmp = []
         correct_words_after_tmp = []
         seconds = data['rounds'][i]['seconds'] + 1
-        notifTimeClicked = seconds - data['rounds'][i]['notifTimeClicked']
-        notifTimeClicked = abs(notifTimeClicked)
-        if notifTimeClicked == 30:
+        notifTime = abs(seconds - data['rounds'][i]['notifTime'])
+        notifTimeClicked = abs(seconds - data['rounds'][i]['notifTimeClicked']) if data['rounds'][i]['notifTimeClicked'] != 'none' else 'none'
+        if notifTimeClicked != 'none' and notifTimeClicked == 30:
             notifTimeClicked = 0
-        notifTime = data['rounds'][i]['notifTime']
+        rt = notifTimeClicked - notifTime if notifTimeClicked != 'none' else 'none'
+        if data['rounds'][i]['returnClick'] != 'none':
+            return_click = seconds - data['rounds'][i]['returnClick']
+        else:
+            return_click = 'none'
+        slot_after_type = data['rounds'][i]['slotAfterType']
+        if slot_after_type != 'none':
+            if slot_after_type in correct_words:
+                slot_after_type = "цель"
+            else:
+                slot_after_type = "дистрактор"
+
         for word in selected_words_before:
             if word in correct_words:
                 correct_words_before_tmp.append(word)
@@ -87,7 +98,7 @@ def get_statistic(data):
             if key != 'distract':
                 targets_after.append(correct_words_after_counter[key])
 
-        rounds_df.loc[i] = [round_index,not_pa,not_type,seconds, notifTime, notifTimeClicked, correct_words_bofore_len, targets_before[0], targets_before[1], targets_before[2],correct_words_after_len, targets_after[0], targets_after[1], targets_after[2],correct_words_before_counter['distract'] ,correct_words_after_counter['distract']]
+        rounds_df.loc[i] = [round_index,not_pa,content_type,not_type,seconds, notifTime, notifTimeClicked,rt,return_click,slot_after_type, correct_words_bofore_len, targets_before[0], targets_before[1], targets_before[2],correct_words_after_len, targets_after[0], targets_after[1], targets_after[2],correct_words_before_counter['distract'] ,correct_words_after_counter['distract']]
 
     file_path = 'public/' + name + ' ' + str(datetime.datetime.now()) + '.xlsx'
 

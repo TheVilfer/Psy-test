@@ -45,20 +45,11 @@ def get_target_words(gridData):
 
 def get_notification_info(round_index,gridData):
     notification_info = {}
-
-    # for index, row in gridData.iterrows():
-    #     round_index = index
-    #     isHaveNotification = True if (row['not_p'] == 'p') else False
-    #     notificationType = row['not_type']
-
-    #     notification_info[round_index] = {
-    #         "isHaveNotification": isHaveNotification,
-    #         "notificationType": notificationType
-    #     }
     notificationData = gridData.loc[round_index - 1,'not_pa':'not_type'].values.tolist()
     notification_info = {
         "isHaveNotification": True if (notificationData[0] == 'p') else False,
-        "notificationType": notificationData[1]
+        "notificationType": notificationData[2],
+        "notificationText": notificationData[1],
     }
     return notification_info
 
@@ -111,7 +102,7 @@ def unique(obj: iter):
             yield a
 
 if __name__ == '__main__':
-    config_path = 'config_v2.xlsx'
+    config_path = 'config_v3.xlsx'
     dfs = load_dfs(config_path)
     settings = get_settings(dfs[0])
     target_words = get_target_words(dfs[1])
